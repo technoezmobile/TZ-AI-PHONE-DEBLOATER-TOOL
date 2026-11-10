@@ -1,0 +1,60 @@
+name: Multi-Platform CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup Rust Stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install Linux Build Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Run JavaScript Contract Tests
+        run: npm test
+
+      - name: Frontend Typecheck & Build
+        run: npm run build
+
+      - name: Rust Format & Clippy Check
+        run: |
+          cargo check --manifest-path src-tauri/Cargo.toml --bins
+          cargo check --manifest-path src-tauri/Cargo.toml --lib
+
+      - name: Run Rust Test Suite (81+ Tests)
+        run: cargo test --manifest-path src-tauri/Cargo.toml --verbose
+

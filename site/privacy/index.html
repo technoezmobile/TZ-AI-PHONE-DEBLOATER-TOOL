@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy & AI Data Handling · TZ AI DEBLOATER TOOL</title>
+  <meta name="description" content="Privacy policy and data handling principles for TZ AI DEBLOATER TOOL. Zero telemetry, zero analytics tracking, local DPAPI credential storage, and explicit consent for AI interactions.">
+  <link rel="canonical" href="https://tzlabs.in/debloater/privacy/">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tzlabs.in/debloater/privacy/">
+  <meta property="og:title" content="TZ AI DEBLOATER TOOL Privacy Policy">
+  <meta property="og:description" content="Local-first Android debloating with zero background telemetry, encrypted OS vault credential storage, and explicit AI consent.">
+  <meta property="og:image" content="https://tzlabs.in/debloater/assets/logo.png">
+
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="../" class="brand-group" aria-label="TZ AI Debloater Tool Home">
+        <span class="brand-badge">TZ</span>
+        <span class="brand-name">AI DEBLOATER TOOL</span>
+        <span class="brand-version">v1.1.0</span>
+      </a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../">Overview</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="../docs/">Documentation</a></li>
+          <li><a href="../changelog/">Changelog</a></li>
+          <li><a href="./" class="active">Privacy</a></li>
+          <li><a href="../refer/">Share</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <div style="margin-bottom: 24px;">
+      <span class="badge badge-teal">Security & Privacy First</span>
+      <h1 style="margin-top: 8px;">Privacy Policy & AI Data Handling</h1>
+      <p>Effective Date: November 10, 2026 · Product: TZ AI DEBLOATER TOOL v1.1.0</p>
+    </div>
+
+    <div class="callout" style="border-left-color: var(--status-positive); margin-bottom: 28px;">
+      <div class="callout-title" style="color: var(--status-positive);">Core Guarantee: Zero Telemetry</div>
+      <p class="callout-text">
+        TZ AI DEBLOATER TOOL does not include analytics, tracking beacons, error tracking daemons, or telemetry libraries. It does not contact any TZ Labs server during regular operation.
+      </p>
+    </div>
+
+    <section>
+      <h2>1. Local Device Execution & ADB Privacy</h2>
+      <p>
+        All package queries and ADB commands execute strictly between your Windows workstation and the connected Android phone via local USB cable or local Wi-Fi. No package inventories, installed application lists, or user profile configurations are transmitted to the internet.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Windows Credential Manager DPAPI Vault</h2>
+      <p>
+        AI provider API keys (such as Google Gemini, OpenAI, or Anthropic keys) are never stored in plain-text JSON or configuration files. They are encrypted using the Windows Data Protection API (DPAPI) and stored securely in the native Windows Credential Manager under the <code>tz_debloater_vault</code> namespace.
+      </p>
+      <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+        <li>Keys are never logged in debug outputs or included in execution reports.</li>
+        <li>Deleting a connection profile immediately and permanently purges the secret from the Windows Credential Manager.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. AI Assistant Data Boundaries & Explicit Consent</h2>
+      <p>
+        The AI Assistant feature is completely optional. By default, AI capabilities are gated behind an explicit <strong>AI Consent</strong> toggle.
+      </p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 250px;">Data Type</th>
+              <th style="width: 140px;">Transmitted?</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Personal Data</strong> (Contacts, SMS, Photos)</td>
+              <td><span class="badge badge-teal">Never</span></td>
+              <td>The tool never reads or requests personal user data.</td>
+            </tr>
+            <tr>
+              <td><strong>Device Identifiers</strong> (IMEI, MAC, Serial)</td>
+              <td><span class="badge badge-teal">Never</span></td>
+              <td>Hardware serials and MAC addresses are stripped before formulating prompts.</td>
+            </tr>
+            <tr>
+              <td><strong>Installed Package Identifiers</strong></td>
+              <td><span class="badge badge-zinc">Only with Consent</span></td>
+              <td>Only public package IDs (e.g. <code>com.facebook.katana</code>) relevant to the debloating query are sent to the user's chosen AI provider.</td>
+            </tr>
+            <tr>
+              <td><strong>Direct API Keys</strong></td>
+              <td><span class="badge badge-zinc">Client-Direct</span></td>
+              <td>When using Gemini Direct, your request communicates directly from your machine to Google's API endpoints without passing through any intermediary.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Local Recovery Journal</h2>
+      <p>
+        Historical debloating actions are recorded in an encrypted SQLite database stored locally at:
+      </p>
+      <pre><code>%APPDATA%\com.tzlabs.debloater\journal.db</code></pre>
+      <p>
+        This journal remains entirely on your machine. You can view, search, or clear this journal at any time from the <strong>Journal & Recovery</strong> tab.
+      </p>
+    </section>
+
+    <section>
+      <h2>5. Open Source Verification</h2>
+      <p>
+        TZ AI DEBLOATER TOOL is released under the GNU General Public License v3.0 (GPL-3.0). The complete source code is public and inspectable, allowing users and security researchers to verify network calls and data handling directly.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © 2026 <a href="https://tzlabs.in" target="_blank" rel="noopener">TZ Labs</a>. Free and Open Source under GPL-3.0.
+      </div>
+      <ul class="footer-links">
+        <li><a href="../">Overview</a></li>
+        <li><a href="../download/">Download</a></li>
+        <li><a href="../docs/">Docs</a></li>
+        <li><a href="../changelog/">Changelog</a></li>
+        <li><a href="./">Privacy</a></li>
+        <li><a href="../refer/">Share</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
+

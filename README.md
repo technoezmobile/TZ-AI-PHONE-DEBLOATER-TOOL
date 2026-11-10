@@ -1,0 +1,154 @@
+# TZ AI DEBLOATER TOOL
+
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-teal.svg)](./LICENSE)
+[![Release: v1.1.0](https://img.shields.io/badge/Release-v1.1.0-emerald.svg)](https://github.com/tz-labs/tz-ai-debloater-tool/releases/tag/v1.1.0)
+[![CI: Multi-Platform](https://img.shields.io/badge/CI-Multi--Platform-blue.svg)](./.github/workflows/ci.yml)
+[![Design: Unslop](https://img.shields.io/badge/Design-Unslop-zinc.svg)](https://github.com/heydamir)
+
+**TZ AI DEBLOATER TOOL** is an open-source, conservative Android maintenance workstation and package manager engineered by **TZ Labs**. It establishes direct communication with Android devices via USB debugging or Android 11+ wireless ADB, empowering power users, system administrators, and technicians to inspect, disable, uninstall, and recover packages.
+
+It features both a fluid desktop graphical application and a headless standalone terminal CLI (`tz-debloater`), backed by a deterministic, action-aware safety policy, an atomic local audit journal, and multi-provider AI planning.
+
+---
+
+## Operating System Support Matrix
+
+| Platform | Architecture | Graphical Desktop App | Standalone CLI (`tz-debloater`) | Support Tier |
+| :--- | :--- | :--- | :--- | :--- |
+| **Windows 10 / 11** | `x86_64` (64-bit) | NSIS Setup, WiX MSI, Portable EXE | Standalone `.exe` (`.zip`) | **Tier 1: Verified on Hardware** |
+| **macOS 12+** | Apple Silicon (`aarch64`) | DMG Bundle | Standalone Mach-O binary | **Tier 2: Supported (CI Built)** |
+| **macOS 12+** | Intel (`x86_64`) | DMG Bundle | Standalone Mach-O binary | **Tier 2: Supported (CI Built)** |
+| **Linux (Ubuntu, Debian, Fedora, Arch)** | `x86_64` (64-bit) | AppImage, `.deb` package | Standalone ELF binary | **Tier 2: Supported (CI Built)** |
+| **Windows on ARM** | `aarch64` | Emulated x64 execution | Emulated x64 execution | Compatible (Unverified native) |
+| **Linux ARM64** | `aarch64` | Source build required | Source build required | Community Unverified |
+
+---
+
+## Official Downloads (Release v1.1.0)
+
+All official release artifacts are cryptographically signed with SHA-256 checksums available in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt):
+
+| File Name | Format | Target Platform | Description |
+| :--- | :--- | :--- | :--- |
+| **`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`** | NSIS Installer | Windows 10/11 x64 | **Recommended Desktop Setup**: Per-user installation, automatic shortcut creation, uninstaller. |
+| **`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`** | WiX MSI | Windows 10/11 x64 | **Enterprise Deployment**: Silent automated rollouts via Group Policy (GPO), Intune, or SCCM. |
+| **`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`** | Standalone EXE | Windows 10/11 x64 | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
+| **`tz-debloater-v1.1.0-windows-x64.zip`** | Zip Archive | Windows 10/11 x64 | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
+
+---
+
+## Quickstart
+
+### 1. Graphical Desktop Application
+1. Download and run **`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`**.
+2. Connect your Android phone with **USB Debugging** enabled (see [User Guide](./docs/USER_GUIDE.md)).
+3. Browse the default **Debloat Candidates** view in Package Explorer.
+4. Select packages to modify, review the preflight safety check, and click **Apply**.
+
+### 2. Standalone Terminal CLI (`tz-debloater`)
+```bash
+# 1. Inspect environment and connected devices
+tz-debloater doctor
+
+# 2. List connected devices and Android user profiles
+tz-debloater devices
+tz-debloater users
+
+# 3. View recommended debloat candidates
+tz-debloater candidates
+
+# 4. Generate an action plan for telemetry trackers
+tz-debloater plan --intent trackers
+
+# 5. Apply modifications safely with automatic confirmation
+tz-debloater apply --packages "com.facebook.katana" --action disable
+
+# 6. Undo the last operation at any time
+tz-debloater restore --latest -y
+```
+
+For complete CLI documentation, flags, and exit codes, see [`docs/CLI.md`](./docs/CLI.md).
+
+---
+
+## Key Capabilities & Safety Architecture
+
+### 1. 3-Dimensional Package Classification
+Unlike primitive debloaters that mix safety and category into a single badge, TZ AI DEBLOATER TOOL evaluates every package along three independent axes:
+- **Android Package Type**: Runtime metadata from the Android OS (`System`, `UpdatedSystem`, `User`).
+- **Community Catalog Rating**: Static consensus across 1,500+ analyzed packages (`Recommended`, `Advanced`, `Expert`, `Unsafe`, `Unlisted`).
+- **Current Removal Eligibility**: Real-time policy decision (`Eligible`, `ReviewOnly`, `Protected`, `AlreadyRemoved`).
+
+> [!IMPORTANT]
+> A catalog rating of "Recommended" **never overrides** runtime device protections. If a package is acting as your active launcher or keyboard, removal is strictly blocked.
+
+### 2. Four Distinct AI Assistant Shortcuts
+The AI assistant includes 4 dedicated single-click scopes:
+- **Review Bloatware**: Strictly inspects verified bloatware candidates with high-confidence evidence.
+- **Review Trackers**: Focuses strictly on telemetry, analytics, and advertising SDKs.
+- **Uninstall Promos**: Targets third-party partner and sponsor applications for per-user removal.
+- **List Candidates**: **Read-only** view displaying all catalog debloat candidates without proposing actions.
+
+### 3. Action-Aware Safety Policy
+- **Dynamic Role Protection**: Automatically detects active home screen launchers (`cmd package resolve-activity`) and keyboards (`ime list -s`) to prevent bricking device navigation.
+- **Selective Blocking**: Destructive actions (`Disable`, `UninstallUser`) are strictly blocked on essential services, while restorative actions (`Enable`, `Restore`) remain open.
+- **No Accidental Disables**: Removal requests execute as `ActionType::UninstallUser` (`pm uninstall -k --user <uid>`), preventing unwanted fallback to disablement.
+
+### 4. Cross-Process Advisory Locking
+An atomic file-locking engine (`CrossProcessLock`) coordinates access between the desktop application and CLI sessions, preventing conflicting writes to devices, config files, or the audit journal. Stale locks from crashed processes are automatically reaped.
+
+### 5. OS-Backed Cryptographic Keyrings
+API keys for AI integrations (Gemini, OpenAI, Anthropic) are stored encrypted in native operating system keyrings:
+- Windows: Microsoft Credential Manager via DPAPI.
+- macOS: Apple Keychain Services.
+- Linux: FreeDesktop Secret Service API (`secret-tool`) or restricted `0o600` file store.
+- Keys are **never stored in plaintext `config.json`**.
+
+---
+
+## Documentation Index
+
+Comprehensive guides are available in the [`docs/`](./docs/) directory:
+
+- [**User Guide (`docs/USER_GUIDE.md`)**](./docs/USER_GUIDE.md): End-to-end walkthrough of USB/wireless ADB, multi-user profiles, batch actions, and settings.
+- [**CLI Manual (`docs/CLI.md`)**](./docs/CLI.md): Complete reference for `tz-debloater` subcommands, flags, POSIX exit codes, and scripting examples.
+- [**Installation Guide (`docs/INSTALL.md`)**](./docs/INSTALL.md): Instructions for Windows, macOS Gatekeeper clearance, Linux udev rules, and verification.
+- [**Troubleshooting Guide (`docs/TROUBLESHOOTING.md`)**](./docs/TROUBLESHOOTING.md): Fixes for Xiaomi security restrictions, Knox MDM blocks, unauthorized devices, and emergency Safe Mode recovery.
+- [**Maintainer Guide (`docs/MAINTAINER.md`)**](./docs/MAINTAINER.md): Developer toolchains, directory layout, test suites, and release packaging workflows.
+- [**Privacy & Data Policy (`docs/PRIVACY.md`)**](./docs/PRIVACY.md): Zero-telemetry audit, credential vault mechanics, and AI data minimization controls.
+- [**Publishing Guide (`PUBLISHING.md`)**](./PUBLISHING.md): Step-by-step instructions for repository owners to push releases and deploy website previews.
+- [**Changelog (`CHANGELOG.md`)**](./CHANGELOG.md): Historical log of all releases and technical improvements.
+
+---
+
+## Upstream Lineage & Third-Party Credits
+
+TZ AI DEBLOATER TOOL inspects and acknowledges the following open-source projects:
+
+- **unslop Design System**:
+  - Author: Damir Sokolovsky (`@heydamir`)
+  - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+- **FreeLLMAPI Gateway**:
+  - Author: Tashfeen Ahmed (`https://github.com/tashfeenahmed/freellmapi`)
+  - License: MIT License
+- **Universal Android Debloater Next Generation (UAD-ng)**:
+  - Repository: `https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation`
+  - License: GNU General Public License v3.0 (GPL-3.0)
+- **Canta**:
+  - Repository: `https://github.com/samolego/Canta`
+  - License: GNU Lesser General Public License v3.0 (LGPL-3.0)
+
+For full licensing details, see [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) and [`LICENSE`](./LICENSE).
+
+---
+
+## Safety Disclaimer
+
+> [!WARNING]
+> Non-root package operations operate at the per-user profile layer. They do NOT delete original system APKs from the read-only `/system` partition. While system packages can generally be re-enabled or re-installed (`cmd package install-existing`), disabling critical components can cause system instability, bootloops, or require a factory reset. Always maintain offline backups of critical data before modifying system packages.
+
+---
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.

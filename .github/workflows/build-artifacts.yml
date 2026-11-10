@@ -1,0 +1,136 @@
+name: Build CI Artifacts (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build profile (release or debug)'
+        required: false
+        default: 'release'
+        type: choice
+        options:
+          - release
+          - debug
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-x64
+            os: windows-latest
+            artifact_name: tz-debloater-windows-x64
+          - platform: macos-aarch64
+            os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: tz-debloater-macos-aarch64
+          - platform: macos-x64
+            os: macos-13
+            target: x86_64-apple-darwin
+            artifact_name: tz-debloater-macos-x64
+          - platform: linux-x64
+            os: ubuntu-22.04
+            artifact_name: tz-debloater-linux-x64
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target || '' }}
+
+      - name: Cache Cargo Dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install Linux Build Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libssl-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libfuse2
+
+      - name: Install Locked Frontend Dependencies
+        run: npm ci
+
+      - name: Build Standalone CLI (`tz-debloater`)
+        run: |
+          BUILD_FLAG="${{ github.event.inputs.build_type == 'debug' && '' || '--release' }}"
+          TARGET_FLAG="${{ matrix.target && format('--target {0}', matrix.target) || '' }}"
+          cargo build --manifest-path src-tauri/Cargo.toml $BUILD_FLAG --bin tz-debloater $TARGET_FLAG
+
+      - name: Collect Windows CLI Artifact
+        if: runner.os == 'Windows'
+        run: |
+          $PROFILE_DIR = "${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          mkdir -p ci_artifacts
+          Copy-Item "src-tauri/target/$PROFILE_DIR/tz-debloater.exe" -Destination "ci_artifacts/"
+          Compress-Archive -Path "ci_artifacts/tz-debloater.exe" -DestinationPath "ci_artifacts/tz-debloater-windows-x64.zip"
+
+      - name: Collect Unix CLI Artifact
+        if: runner.os != 'Windows'
+        run: |
+          PROFILE_DIR="${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          CLI_DIR="${{ matrix.target && format('src-tauri/target/{0}/{1}', matrix.target, github.event.inputs.build_type == 'debug' && 'debug' || 'release') || format('src-tauri/target/{0}', github.event.inputs.build_type == 'debug' && 'debug' || 'release') }}"
+          mkdir -p ci_artifacts
+          cp "$CLI_DIR/tz-debloater" ci_artifacts/
+          chmod +x ci_artifacts/tz-debloater
+          tar -czvf "ci_artifacts/tz-debloater-${{ matrix.platform }}.tar.gz" -C ci_artifacts tz-debloater
+
+      - name: Build Desktop Application (Tauri v2)
+        run: |
+          BUILD_FLAG="${{ github.event.inputs.build_type == 'debug' && '--debug' || '' }}"
+          TARGET_FLAG="${{ matrix.target && format('--target {0}', matrix.target) || '' }}"
+          npx tauri build $BUILD_FLAG $TARGET_FLAG
+
+      - name: Gather Generated Desktop Bundles
+        shell: bash
+        run: |
+          PROFILE_DIR="${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          BUNDLE_BASE="${{ matrix.target && format('src-tauri/target/{0}/{1}/bundle', matrix.target, github.event.inputs.build_type == 'debug' && 'debug' || 'release') || format('src-tauri/target/{0}/bundle', github.event.inputs.build_type == 'debug' && 'debug' || 'release') }}"
+          
+          echo "Scanning for bundles in $BUNDLE_BASE..."
+          if [ -d "$BUNDLE_BASE" ]; then
+            find "$BUNDLE_BASE" -type f \( -name "*.exe" -o -name "*.msi" -o -name "*.dmg" -o -name "*.deb" -o -name "*.AppImage" \) -exec cp {} ci_artifacts/ \;
+          fi
+
+          # Also grab the standalone unbundled executable
+          STANDALONE_DIR="${{ matrix.target && format('src-tauri/target/{0}/{1}', matrix.target, github.event.inputs.build_type == 'debug' && 'debug' || 'release') || format('src-tauri/target/{0}', github.event.inputs.build_type == 'debug' && 'debug' || 'release') }}"
+          if [ -f "$STANDALONE_DIR/tz-ai-debloater-tool.exe" ]; then
+            cp "$STANDALONE_DIR/tz-ai-debloater-tool.exe" ci_artifacts/TZ-AI-Debloater-Tool-portable.exe
+          fi
+
+          echo "Collected artifacts:"
+          ls -la ci_artifacts/
+
+      - name: Upload Platform Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ci_artifacts/*
+          if-no-files-found: error
+          retention-days: 14

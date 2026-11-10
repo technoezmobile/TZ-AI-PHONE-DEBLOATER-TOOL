@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation & User Guide · TZ AI DEBLOATER TOOL</title>
+  <meta name="description" content="Comprehensive technical documentation for TZ AI DEBLOATER TOOL v1.1.0. Learn how to configure ADB, manage Android user profiles, inspect package categories, configure AI models, and recover removed apps.">
+  <link rel="canonical" href="https://tzlabs.in/debloater/docs/">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tzlabs.in/debloater/docs/">
+  <meta property="og:title" content="TZ AI DEBLOATER TOOL Documentation">
+  <meta property="og:description" content="Technical guide for Android debloating, profile isolation, MediaTek safeguards, and recovery journals.">
+  <meta property="og:image" content="https://tzlabs.in/debloater/assets/logo.png">
+
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="../" class="brand-group" aria-label="TZ AI Debloater Tool Home">
+        <span class="brand-badge">TZ</span>
+        <span class="brand-name">AI DEBLOATER TOOL</span>
+        <span class="brand-version">v1.1.0</span>
+      </a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../">Overview</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="./" class="active">Documentation</a></li>
+          <li><a href="../changelog/">Changelog</a></li>
+          <li><a href="../privacy/">Privacy</a></li>
+          <li><a href="../refer/">Share</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <div style="margin-bottom: 24px;">
+      <span class="badge badge-teal">User Guide & Reference</span>
+      <h1 style="margin-top: 8px;">TZ AI DEBLOATER TOOL Documentation</h1>
+      <p>Precision Android maintenance console documentation for version 1.1.0.</p>
+    </div>
+
+    <!-- Quick Navigation Index -->
+    <div class="card" style="margin-bottom: 32px;">
+      <div class="card-title">Documentation Index</div>
+      <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; font-size: 13px; margin-top: 8px;">
+        <li><a href="#quick-start">1. Quick Start & Setup</a></li>
+        <li><a href="#user-profiles">2. Multi-User Profile Isolation</a></li>
+        <li><a href="#package-classification">3. Package Classification Dimensions</a></li>
+        <li><a href="#hardware-safeguards">4. Hardware & Vendor Safeguards</a></li>
+        <li><a href="#ai-assistant">5. AI Assistant & Gemini Integration</a></li>
+        <li><a href="#recovery-journal">6. Journal & Rollback Recovery</a></li>
+        <li><a href="#shortcuts">7. Keyboard Shortcuts Guide</a></li>
+        <li><a href="#troubleshooting">8. Troubleshooting & Error Codes</a></li>
+      </ul>
+    </div>
+
+    <!-- 1. Quick Start -->
+    <section id="quick-start">
+      <h2>1. Quick Start & Setup</h2>
+      <p>
+        TZ AI DEBLOATER TOOL interfaces with Android devices via the official Android Debug Bridge (ADB). Root access is <strong>not required</strong>; non-root debugging operates safely within user-space boundaries.
+      </p>
+
+      <h3>Enabling USB Debugging on Android</h3>
+      <ol style="padding-left: 20px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+        <li>Open <strong>Settings → About phone</strong> on your device.</li>
+        <li>Tap <strong>Build number</strong> (or <strong>OS version</strong>) 7 times until Developer options are unlocked.</li>
+        <li>Navigate to <strong>Settings → System (or Additional Settings) → Developer options</strong>.</li>
+        <li>Enable <strong>USB debugging</strong>.</li>
+        <li><em>Xiaomi / POCO devices:</em> Also enable <strong>USB debugging (Security settings)</strong> if prompted to grant permission modification.</li>
+        <li>Connect the phone to your PC with a data-capable USB cable and accept the RSA prompt: <em>"Always allow from this computer"</em>.</li>
+      </ol>
+
+      <h3>Wireless ADB Setup (Android 11+)</h3>
+      <p>
+        If your phone and PC share the same Wi-Fi network, you can connect wirelessly without a cable:
+      </p>
+      <ol style="padding-left: 20px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+        <li>In Developer options, enable <strong>Wireless debugging</strong>.</li>
+        <li>Tap <em>Pair device with pairing code</em> to reveal the IP address, pairing port, and 6-digit code.</li>
+        <li>In the desktop tool's <strong>Devices</strong> screen, click <strong>Wireless ADB Setup</strong>, enter the details, and click <strong>Pair Device</strong>.</li>
+      </ol>
+    </section>
+
+    <!-- 2. User Profiles -->
+    <section id="user-profiles">
+      <h2>2. Multi-User Profile Isolation</h2>
+      <p>
+        Modern Android versions isolate application states per user ID:
+      </p>
+      <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+        <li><code>User 0</code>: Primary Owner profile.</li>
+        <li><code>User 10 / 11</code>: Managed Work Profile (Android Enterprise).</li>
+        <li><code>User 999</code>: Dual Apps / Parallel Spaces on Xiaomi, Samsung, and OnePlus.</li>
+      </ul>
+      <p>
+        Executing an uninstall command without user specification can inadvertently alter unintended profiles. TZ AI DEBLOATER TOOL queries <code>pm list users</code>, displays active profiles in the top target strip, and appends explicit <code>--user &lt;id&gt;</code> flags to all commands.
+      </p>
+    </section>
+
+    <!-- 3. Package Classification -->
+    <section id="package-classification">
+      <h2>3. Package Classification Dimensions</h2>
+      <p>
+        Unlike tools that conflate catalog tags with safety status, TZ AI DEBLOATER TOOL tracks three distinct dimensions:
+      </p>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Possible Values</th>
+              <th>Source of Truth</th>
+              <th>Implication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Android Package Type</strong></td>
+              <td><code>System</code>, <code>UpdatedSystem</code>, <code>User</code></td>
+              <td>Android <code>pm list packages -s -f</code> metadata</td>
+              <td>Identifies whether the APK lives in <code>/system/app</code> or <code>/data/app</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Catalog Rating</strong></td>
+              <td><code>Recommended</code>, <code>Advanced</code>, <code>Expert</code>, <code>Unsafe</code>, <code>Unlisted</code></td>
+              <td>Curated debloating community database</td>
+              <td>Descriptive community experience. <em>Never overrides hardware protection rules.</em></td>
+            </tr>
+            <tr>
+              <td><strong>Removal Eligibility</strong></td>
+              <td><code>Eligible</code>, <code>ReviewOnly</code>, <code>Protected</code>, <code>AlreadyRemoved</code></td>
+              <td>Safety Policy engine evaluation</td>
+              <td>Enforces whether batch actions or AI automated plans are permitted to touch the package.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. Hardware Safeguards -->
+    <section id="hardware-safeguards">
+      <h2>4. Hardware & Vendor Safeguards</h2>
+      <p>
+        To prevent device soft-bricks and bootloops, the backend safety engine blocks critical services:
+      </p>
+      <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+        <li><strong>MediaTek & Modem Services:</strong> <code>com.mediatek.telephony</code>, <code>com.mediatek.ims</code>, <code>com.mediatek.wfo.impl</code> are permanently locked as <code>Protected</code>.</li>
+        <li><strong>Active Launcher & IME:</strong> The currently active home launcher and default software keyboard are protected from removal.</li>
+        <li><strong>Built-in ROM Utilities:</strong> Built-in calculators, notes, compasses, and screen recorders (e.g. <code>com.miui.compass</code>, <code>com.sec.android.app.popupcalculator</code>) are marked <code>Review-Only</code> and excluded from automated debloating batches.</li>
+      </ul>
+    </section>
+
+    <!-- 5. AI Assistant -->
+    <section id="ai-assistant">
+      <h2>5. AI Assistant & Gemini Integration</h2>
+      <p>
+        The AI Assistant proposes personalized debloating plans tailored to your device model and storage goals.
+      </p>
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-title">Gemini Direct Setup</div>
+        <p class="card-text">
+          Obtain a free Google AI Studio API key at <a href="https://aistudio.google.com" target="_blank" rel="noopener">aistudio.google.com</a>. In <strong>Settings → AI Connections</strong>, select <strong>Gemini Direct</strong>, paste your API key, and select <code>gemini-2.5-flash</code>. Credentials are saved directly into the Windows Credential Manager.
+        </p>
+      </div>
+      <p>
+        <strong>Consent Boundary:</strong> Zero device metadata is transmitted until you check the explicit AI Consent checkbox. Package lists are sanitized before prompt formulation.
+      </p>
+    </section>
+
+    <!-- 6. Recovery Journal -->
+    <section id="recovery-journal">
+      <h2>6. Journal & Rollback Recovery</h2>
+      <p>
+        Every operation performed in the tool is recorded in an encrypted SQLite database on your local disk (<code>journal.db</code>).
+      </p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Action Taken</th>
+              <th>Underlying ADB Command</th>
+              <th>Recovery ADB Command</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Disable</strong></td>
+              <td><code>pm disable-user --user &lt;id&gt; &lt;package&gt;</code></td>
+              <td><code>pm enable --user &lt;id&gt; &lt;package&gt;</code></td>
+            </tr>
+            <tr>
+              <td><strong>Uninstall (User)</strong></td>
+              <td><code>pm uninstall -k --user &lt;id&gt; &lt;package&gt;</code></td>
+              <td><code>cmd package install-existing --user &lt;id&gt; &lt;package&gt;</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        To restore an uninstalled package, visit <strong>Journal & Recovery</strong>, click on the historical operation, and select <strong>Restore Package</strong>.
+      </p>
+    </section>
+
+    <!-- 7. Shortcuts -->
+    <section id="shortcuts">
+      <h2>7. Keyboard Shortcuts Guide</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 160px;">Shortcut</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Ctrl + K</code></td>
+              <td>Open Global Command Palette</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 1</code></td>
+              <td>Navigate to Connected Devices console</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 2</code></td>
+              <td>Navigate to Package Explorer</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 3</code></td>
+              <td>Navigate to AI Assistant</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 4</code></td>
+              <td>Navigate to Action Plan Review</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 5</code></td>
+              <td>Navigate to Journal & Recovery</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 6</code></td>
+              <td>Navigate to Settings</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + 7</code></td>
+              <td>Navigate to About & Notices</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + R / F5</code></td>
+              <td>Rescan packages & refresh device list</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + / or ?</code></td>
+              <td>Open Keyboard Shortcuts modal</td>
+            </tr>
+            <tr>
+              <td><code>Escape</code></td>
+              <td>Dismiss open dialog, modal, drawer, or palette</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8. Troubleshooting -->
+    <section id="troubleshooting">
+      <h2>8. Troubleshooting & Common Error Codes</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">SecurityException / Permission Denial</div>
+          <p class="card-text">
+            On Xiaomi / POCO devices, disabling system daemons requires enabling <em>"USB debugging (Security settings)"</em> in Developer options. This setting requires a Xiaomi SIM card during toggle.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Failure [DELETE_FAILED_INTERNAL_ERROR]</div>
+          <p class="card-text">
+            The package is hard-pinned into the ROM read-only image or owned by device policy controller (Knox / Enterprise MDM). Use <strong>Disable</strong> instead of Uninstall.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Device Unauthorized</div>
+          <p class="card-text">
+            Unlock your phone screen, check the USB cable connection, and accept the RSA host authorization dialog.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Wireless ADB Offline</div>
+          <p class="card-text">
+            Android changes wireless debugging ports on each reconnect. Re-check the current port displayed under Wireless Debugging in Developer Options.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © 2026 <a href="https://tzlabs.in" target="_blank" rel="noopener">TZ Labs</a>. Free and Open Source under GPL-3.0.
+      </div>
+      <ul class="footer-links">
+        <li><a href="../">Overview</a></li>
+        <li><a href="../download/">Download</a></li>
+        <li><a href="./">Docs</a></li>
+        <li><a href="../changelog/">Changelog</a></li>
+        <li><a href="../privacy/">Privacy</a></li>
+        <li><a href="../refer/">Share</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
+

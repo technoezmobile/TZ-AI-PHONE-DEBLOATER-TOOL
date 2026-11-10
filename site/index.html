@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TZ AI DEBLOATER TOOL · Android Maintenance Console</title>
+  <meta name="description" content="Precision Android debloating and maintenance console for Windows. Safely inspect, disable, uninstall, and restore packages with user-profile isolation, vendor safeguards, and optional AI guidance.">
+  <link rel="canonical" href="https://tzlabs.in/debloater/">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tzlabs.in/debloater/">
+  <meta property="og:title" content="TZ AI DEBLOATER TOOL · Android Maintenance Console">
+  <meta property="og:description" content="Precision Android debloating and maintenance console. Factual package classification, multi-user isolation, vendor protections, and zero telemetry.">
+  <meta property="og:image" content="https://tzlabs.in/debloater/assets/logo.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TZ AI DEBLOATER TOOL · Android Maintenance Console">
+  <meta name="twitter:description" content="Precision Android debloating and maintenance console with user-profile isolation, vendor safeguards, and offline recovery.">
+  <meta name="twitter:image" content="https://tzlabs.in/debloater/assets/logo.png">
+
+  <!-- Security & Privacy -->
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TZ AI DEBLOATER TOOL",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "UtilitiesApplication",
+    "softwareVersion": "1.1.0",
+    "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Precision Android debloating and maintenance desktop console featuring per-user package isolation, MediaTek/OEM hardware safeguards, and rollback journals.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "TZ Labs",
+      "url": "https://tzlabs.in"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="./" class="brand-group" aria-label="TZ AI Debloater Tool Home">
+        <span class="brand-badge">TZ</span>
+        <span class="brand-name">AI DEBLOATER TOOL</span>
+        <span class="brand-version">v1.1.0</span>
+      </a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="./" class="active">Overview</a></li>
+          <li><a href="download/">Download</a></li>
+          <li><a href="docs/">Documentation</a></li>
+          <li><a href="changelog/">Changelog</a></li>
+          <li><a href="privacy/">Privacy</a></li>
+          <li><a href="refer/">Share</a></li>
+          <li><a href="download/" class="btn-cta">Get v1.1.0</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="hero-card">
+      <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="badge badge-teal">v1.1.0 Released</span>
+        <span class="badge badge-zinc">Open Source · GPL-3.0</span>
+        <span class="badge badge-zinc">Zero Cloud Telemetry</span>
+      </div>
+      <h1>Precision Android Debloating Console for Power Users & Technicians</h1>
+      <p class="hero-subtitle">
+        Safely inspect, disable, uninstall, and recover packages across Android devices and user profiles. Built with strict hardware protection rules, immutable journal recovery, and zero telemetry.
+      </p>
+      <div class="hero-actions">
+        <a href="download/" class="btn btn-primary">Download for Windows (x64)</a>
+        <a href="docs/" class="btn btn-secondary">Read Documentation</a>
+        <a href="https://tzlabs.in" class="btn btn-secondary" target="_blank" rel="noopener">TZ Labs Home</a>
+      </div>
+      <div class="hero-meta">
+        <span>Platform: Windows 10 / 11</span>
+        <span>·</span>
+        <span>Android: 7.0 to 15+</span>
+        <span>·</span>
+        <span>USB & Wireless ADB</span>
+        <span>·</span>
+        <span>Release: November 10, 2026</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Engineering Principles & Architecture</h2>
+      <p>
+        Most debloating utilities treat packages as flat lists and run destructive ADB commands without verifying target state, user profile boundaries, or ROM dependencies. TZ AI DEBLOATER TOOL is built on five core safety pillars:
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">1. Multi-User Profile Isolation</div>
+          <p class="card-text">
+            Android manages packages independently per user ID (Owner 0, Work Profile 10, Dual Apps 999). Every action specifies <code>--user &lt;id&gt;</code> and checks post-execution state against that exact profile.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">2. Separated Classification Dimensions</div>
+          <p class="card-text">
+            Package type (<code>System</code>, <code>UpdatedSystem</code>, <code>User</code>), catalog recommendation, and removal eligibility are computed as independent attributes. A catalog recommendation never overrides hardware protection rules.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">3. Critical Vendor & Hardware Safeguards</div>
+          <p class="card-text">
+            Essential MediaTek, Qualcomm, and Samsung telephony/modem components (e.g. <code>com.mediatek.telephony</code>, <code>com.mediatek.ims</code>) are locked as Protected. Built-in ROM utilities are marked Review-Only.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">4. Immutable Journal & Instant Recovery</div>
+          <p class="card-text">
+            Every executed modification is recorded in a local SQLite journal with original package state, command line, user profile, and timestamp. Restore uninstalled packages with one click via <code>cmd package install-existing</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Console Capabilities</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Package Explorer</div>
+          <p class="card-text">
+            Debounced search, categorized views (Debloat candidates, All packages, System & vendor, Removed for user), bulk preflight validation, and detailed package manifest inspection.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Optional AI Assistant</div>
+          <p class="card-text">
+            Propose tailored debloating plans using Gemini Direct (<code>gemini-2.5-flash</code>) or the TZ AI Gateway. Strict opt-in consent required; no telemetry sent without authorization.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Offline Verification</div>
+          <p class="card-text">
+            Every action executes ADB directly on your local system. No account creation, no cloud sync, and credentials reside in the Windows Credential Manager DPAPI vault.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="callout">
+      <div class="callout-title">Verified Hardware Compatibility</div>
+      <p class="callout-text">
+        Tested and verified across Xiaomi HyperOS / MIUI (POCO, Redmi, Xiaomi), Samsung One UI, Google Pixel (AOSP), OnePlus OxygenOS, and Motorola devices. Non-root debugging operates safely within official Android permissions.
+      </p>
+    </section>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <h2>Ready to clean your Android device safely?</h2>
+      <p style="margin-bottom: 20px;">Download the official v1.1.0 release for Windows, macOS, and Linux.</p>
+      <a href="download/" class="btn btn-primary" style="padding: 10px 24px; font-size: 14px;">Go to Downloads</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © 2026 <a href="https://tzlabs.in" target="_blank" rel="noopener">TZ Labs</a>. Free and Open Source under GPL-3.0.
+      </div>
+      <ul class="footer-links">
+        <li><a href="download/">Download</a></li>
+        <li><a href="docs/">Docs</a></li>
+        <li><a href="changelog/">Changelog</a></li>
+        <li><a href="privacy/">Privacy</a></li>
+        <li><a href="refer/">Share</a></li>
+        <li><a href="https://tzlabs.in" target="_blank" rel="noopener">tzlabs.in</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
+
