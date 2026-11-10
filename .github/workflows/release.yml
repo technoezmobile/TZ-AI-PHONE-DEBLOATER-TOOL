@@ -20,11 +20,11 @@ jobs:
             os: windows-latest
             args: --bundles nsis,msi
           - platform: macos-aarch64
-            os: macos-latest
+            os: macos-15
             target: aarch64-apple-darwin
             args: --bundles dmg
           - platform: macos-x64
-            os: macos-13
+            os: macos-15-intel
             target: x86_64-apple-darwin
             args: --bundles dmg
           - platform: linux-x64
@@ -35,10 +35,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Setup Rust Stable
@@ -55,7 +55,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev libfuse2 squashfs-tools
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev libfuse2 squashfs-tools build-essential curl wget file
 
       - name: Install NPM Dependencies
         run: npm ci

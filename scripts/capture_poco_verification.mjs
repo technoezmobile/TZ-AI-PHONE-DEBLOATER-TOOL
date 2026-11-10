@@ -19,7 +19,7 @@ const mockJournal = [
   {
     entry_id: 'entry-poco-01',
     timestamp: 1731170000000,
-    device_serial: 'XGGE79BEEU6HEAIV',
+    device_serial: 'MOCK-DEVICE-SERIAL-001',
     user_id: 0,
     package_id: 'com.miui.analytics',
     action: 'UninstallUser',
@@ -351,7 +351,7 @@ const mockData = {
   },
   list_devices: [
     {
-      serial: 'XGGE79BEEU6HEAIV',
+      serial: 'MOCK-DEVICE-SERIAL-001',
       state: 'Ready',
       connection_type: 'USB',
       model: 'Poco X6 Pro 5G',

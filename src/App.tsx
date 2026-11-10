@@ -69,7 +69,7 @@ const getInitialPlan = (): ActionPlan | null => {
     return {
       id: 'plan-poco-debloat-2026',
       revision: 1,
-      target_device_serial: 'XGGE79BEEU6HEAIV',
+      target_device_serial: 'MOCK-DEVICE-SERIAL-001',
       target_user_id: 0,
       explanation: 'Remove non-essential Facebook services and disable MIUI advertising services on User 0 (Owner).',
       preserved_functionality: ['Phone calls and SMS', 'Camera and Gallery', 'Default HyperOS navigation'],

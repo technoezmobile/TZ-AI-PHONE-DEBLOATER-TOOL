@@ -18,7 +18,7 @@ const mockJournal = [
   {
     entry_id: 'entry-1731170000000',
     timestamp: 1731170000000,
-    device_serial: 'XGGE79BEEU6HEAIV',
+    device_serial: 'MOCK-DEVICE-SERIAL-001',
     user_id: 0,
     package_id: 'com.block.juggle',
     action: 'Disable',
@@ -32,7 +32,7 @@ const mockJournal = [
   {
     entry_id: 'entry-1731170010000',
     timestamp: 1731170010000,
-    device_serial: 'XGGE79BEEU6HEAIV',
+    device_serial: 'MOCK-DEVICE-SERIAL-001',
     user_id: 0,
     package_id: 'com.miui.msa.global',
     action: 'Disable',
@@ -96,7 +96,7 @@ const mockData = {
   },
   list_devices: [
     {
-      serial: 'XGGE79BEEU6HEAIV',
+      serial: 'MOCK-DEVICE-SERIAL-001',
       state: 'Ready',
       connection_type: 'USB',
       model: 'Poco X6 Pro 5G',
