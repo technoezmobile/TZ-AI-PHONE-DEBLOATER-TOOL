@@ -27,9 +27,12 @@
 
 ## 1. Installation & Binary Location
 
-- **Windows**: Included in release zip `tz-debloater-v1.1.0-windows-x64.zip` and placed at `%LOCALAPPDATA%\Programs\TZ_AI_Debloater\tz-debloater.exe` when installed via Setup.
-- **macOS**: Included in macOS release tarball or installed in `/usr/local/bin/tz-debloater`.
-- **Linux**: Standalone ELF executable placed in `/usr/local/bin/tz-debloater`.
+`tz-debloater` is distributed as standalone archives in [`release_artifacts/github-release/v1.1.0/`](../release_artifacts/github-release/v1.1.0/):
+
+- **Windows x64**: [`tz-debloater-v1.1.0-windows-x64.zip`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) (Verified native binary). Also installed to `%LOCALAPPDATA%\Programs\TZ_AI_Debloater\tz-debloater.exe` when installed via Setup.
+- **macOS Apple Silicon**: [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) (*Pending CI runner artifact*).
+- **macOS Intel**: [`tz-debloater-v1.1.0-macos-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) (*Pending CI runner artifact*).
+- **Linux x64**: [`tz-debloater-v1.1.0-linux-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) (*Pending CI runner artifact*).
 
 To verify your installation:
 ```bash

@@ -1,62 +1,140 @@
 # Publishing & Release Guide (Owner Operations)
 
-This document provides exact, copy-ready instructions for publishing the **TZ AI DEBLOATER TOOL** repository to GitHub, creating the official `v1.1.0` release tag, attaching release artifacts, and deploying the static website.
+This document provides exact, copy-ready instructions for publishing the **TZ AI DEBLOATER TOOL** repository to GitHub, compiling missing macOS and Linux binaries via native GitHub Actions runners, generating full checksums, creating the official `v1.1.0` release tag, attaching release artifacts, and deploying the static website.
 
 ---
 
-## 1. Initializing Git & Committing Audited Source
+## 1. Local Git State & Release Candidate Commit
 
-From the project root (`E:\AI DEBLOATER`):
+The repository has been initialized on branch `main` and all 163 audited files (GUI, Rust core, CLI, icons, UAD catalog, tests, documentation, site) have been committed:
 
+- **Release-Candidate Commit**: `c19e513050ece77d0170b6f6c0527b41814b10c7` (Short: `c19e513`)
+- **Commit Message**: `feat(release): cut v1.1.0 release candidate`
+
+To verify the working tree:
 ```bash
-# 1. Verify working tree is clean and unneeded binaries are ignored
 git status
-
-# 2. Add all audited source files, tests, documentation, and static site files
-git add .
-
-# 3. Commit the public release candidate
-git commit -m "feat(release): cut v1.1.0 first public release
-
-- Add standalone tz-debloater CLI with 11 commands and POSIX exit codes
-- Add cross-platform ADB discovery and OS keyring integrations
-- Add cross-process advisory locks with stale lock recovery
-- Implement 3-dimensional package classification and default candidates view
-- Add 4 distinct AI assistant shortcuts and preflight validation
-- Complete multi-platform CI/CD and comprehensive docs"
+git log -n 1 --oneline
 ```
 
 ---
 
 ## 2. Linking GitHub Remote & Pushing Main
 
-If you haven't linked a GitHub remote yet:
+Because macOS and Linux compilation require native toolchains (`hdiutil` for macOS DMGs, `libwebkit2gtk-4.1-dev` and `patchelf` for Linux AppImage/DEB) which do not exist on the Windows workstation, push the repository to GitHub so the manual build workflow can compile the native packages on GitHub-hosted runners.
 
-### Option A: Using GitHub CLI (`gh`)
+### Option A: Create Repository via GitHub Web UI
+1. Navigate to [github.com/new](https://github.com/new).
+2. Name the repository: `tz-ai-debloater-tool` (under `tz-labs` or your personal user account).
+3. Set visibility to **Private** (if staging before release) or **Public**. Do **not** initialize with a README, .gitignore, or license (these already exist locally).
+4. Run in `E:\AI DEBLOATER`:
+   ```bash
+   git remote add origin https://github.com/tz-labs/tz-ai-debloater-tool.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+### Option B: Create Repository via GitHub CLI (`gh`)
 ```bash
-# Authenticate if needed
 gh auth login
-
-# Create public repository under your organization or personal account
 gh repo create tz-labs/tz-ai-debloater-tool --public --source=. --remote=origin --push
-```
-
-### Option B: Using Standard Git
-```bash
-# Add your repository URL
-git remote add origin https://github.com/tz-labs/tz-ai-debloater-tool.git
-
-# Set main branch and push
-git branch -M main
-git push -u origin main
 ```
 
 ---
 
-## 3. Creating & Pushing the Official Release Tag
+## 3. Compiling macOS & Linux Artifacts via GitHub Actions
+
+A dedicated build workflow [`.github/workflows/build-artifacts.yml`](./.github/workflows/build-artifacts.yml) is provided. It compiles all 4 target platforms independently of any release tag and stores downloadable CI artifacts.
+
+### Matrix Runners:
+- **Windows x64**: `windows-latest`
+- **macOS Apple Silicon**: `macos-latest` (Target: `aarch64-apple-darwin`)
+- **macOS Intel**: `macos-13` (Target: `x86_64-apple-darwin`)
+- **Linux x64**: `ubuntu-22.04` (Packages: AppImage, `.deb`, and CLI tarball)
+
+### Triggering the Workflow:
+1. On GitHub, navigate to **Actions** > **Build CI Artifacts (Manual)**.
+2. Click **Run workflow**.
+3. Select branch: `main`, build profile: `release`, and click **Run workflow**.
+4. Once completed (approx. 8–12 minutes), scroll down to the **Artifacts** section on the workflow run page:
+   - `tz-debloater-windows-x64`
+   - `tz-debloater-macos-aarch64`
+   - `tz-debloater-macos-x64`
+   - `tz-debloater-linux-x64`
+
+### Collecting Artifacts into `release_artifacts/`:
+1. Download each artifact zip from the run summary.
+2. Extract the files into `E:\AI DEBLOATER\release_artifacts\github-release\v1.1.0\`:
+   - `TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`
+   - `tz-debloater-v1.1.0-macos-aarch64.tar.gz`
+   - `TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`
+   - `tz-debloater-v1.1.0-macos-x64.tar.gz`
+   - `TZ-AI-Debloater-Tool-v1.1.0.AppImage`
+   - `tz-ai-debloater_1.1.0_amd64.deb`
+   - `tz-debloater-v1.1.0-linux-x64.tar.gz`
+3. Regenerate the authoritative checksum file:
+   ```powershell
+   cd "E:\AI DEBLOATER\release_artifacts\github-release\v1.1.0"
+   Get-ChildItem -File -Exclude "SHA256SUMS.txt" | ForEach-Object {
+       $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
+       "$hash  $($_.Name)"
+   } | Set-Content -Encoding utf8 SHA256SUMS.txt
+   ```
+
+---
+
+## 4. Multi-Platform Smoke Testing Checklist
+
+### Windows 10/11 x64 (Already Verified Locally)
+- [x] NSIS Setup installs cleanly, creates Start/Desktop shortcuts, uninstalls with zero leftovers.
+- [x] WiX MSI installs silently via `msiexec /i ... /quiet /qn`.
+- [x] Portable EXE launches standalone without administrative rights.
+- [x] Standalone CLI `tz-debloater doctor` returns exit code `0`.
+- [x] Tested with real Xiaomi Poco X3 Pro (MIUI Global) and mock ADB suite (81/81 Rust tests pass).
+
+### macOS (Apple Silicon & Intel)
+- [ ] Open DMG, drag `TZ AI DEBLOATER TOOL.app` into `/Applications`.
+- [ ] Clear quarantine attribute if Gatekeeper blocks launch:
+  ```bash
+  xattr -cr "/Applications/TZ AI DEBLOATER TOOL.app"
+  ```
+- [ ] Launch application; verify that window renders with fluid styling and menu items are responsive.
+- [ ] Test standalone CLI:
+  ```bash
+  tar -xzvf tz-debloater-v1.1.0-macos-*.tar.gz
+  ./tz-debloater doctor
+  ```
+
+### Linux (Ubuntu 22.04+ / Debian 12+)
+- [ ] Make AppImage executable and launch:
+  ```bash
+  chmod +x TZ-AI-Debloater-Tool-v1.1.0.AppImage
+  ./TZ-AI-Debloater-Tool-v1.1.0.AppImage
+  ```
+- [ ] Install Debian package:
+  ```bash
+  sudo dpkg -i tz-ai-debloater_1.1.0_amd64.deb
+  sudo apt-get install -f
+  ```
+- [ ] Test CLI binary:
+  ```bash
+  tar -xzvf tz-debloater-v1.1.0-linux-x64.tar.gz
+  ./tz-debloater doctor
+  ```
+
+---
+
+## 5. Creating & Pushing the Official Release Tag
+
+Once all artifacts are collected and verified:
 
 ```bash
-# Create annotated tag for v1.1.0
+# Ensure local repo has latest commits
+git add .
+git commit -m "docs: finalize v1.1.0 multi-platform release artifacts and verification matrix"
+git push origin main
+
+# Create annotated release tag
 git tag -a v1.1.0 -m "Release v1.1.0: First public GitHub release"
 
 # Push tag to GitHub (triggers .github/workflows/release.yml)
@@ -65,19 +143,30 @@ git push origin v1.1.0
 
 ---
 
-## 4. Uploading Release Binaries to GitHub Releases
+## 6. Uploading Assets to GitHub Releases
 
-The release bundles are pre-compiled and placed in `release_artifacts/github-release/v1.1.0/`:
+### Option A: Using GitHub Web Interface
+1. Go to `https://github.com/tz-labs/tz-ai-debloater-tool/releases`.
+2. Click **Draft a new release**.
+3. Choose existing tag **`v1.1.0`**.
+4. Set Title: **`TZ AI DEBLOATER TOOL v1.1.0`**.
+5. Copy release notes from `CHANGELOG.md` into description.
+6. Drag and drop all 12 files from `release_artifacts/github-release/v1.1.0/` into the upload zone:
+   - `TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`
+   - `TZ-AI-Debloater-Tool-v1.1.0-x64.msi`
+   - `TZ-AI-Debloater-Tool-v1.1.0-portable.exe`
+   - `tz-debloater-v1.1.0-windows-x64.zip`
+   - `TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`
+   - `tz-debloater-v1.1.0-macos-aarch64.tar.gz`
+   - `TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`
+   - `tz-debloater-v1.1.0-macos-x64.tar.gz`
+   - `TZ-AI-Debloater-Tool-v1.1.0.AppImage`
+   - `tz-ai-debloater_1.1.0_amd64.deb`
+   - `tz-debloater-v1.1.0-linux-x64.tar.gz`
+   - `SHA256SUMS.txt`
+7. Click **Publish release**.
 
-| File Name | Description |
-| :--- | :--- |
-| **`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`** | Windows NSIS desktop installer |
-| **`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`** | Windows Enterprise WiX MSI installer |
-| **`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`** | Windows zero-install standalone executable |
-| **`tz-debloater-v1.1.0-windows-x64.zip`** | Standalone Windows x64 terminal CLI |
-| **`SHA256SUMS.txt`** | Authoritative SHA-256 checksums |
-
-### Upload via GitHub CLI (`gh`)
+### Option B: Using GitHub CLI (`gh`)
 ```bash
 gh release create v1.1.0 \
   release_artifacts/github-release/v1.1.0/* \
@@ -86,47 +175,26 @@ gh release create v1.1.0 \
   --latest
 ```
 
-### Upload via GitHub Web Interface
-1. Go to `https://github.com/tz-labs/tz-ai-debloater-tool/releases`.
-2. Click **Draft a new release**.
-3. Select tag **`v1.1.0`**.
-4. Set Title: **`TZ AI DEBLOATER TOOL v1.1.0`**.
-5. Copy the `v1.1.0` section from `CHANGELOG.md` into the release notes.
-6. Drag and drop all 5 files from `release_artifacts/github-release/v1.1.0/` into the upload box.
-7. Click **Publish release**.
-
 ---
 
-## 5. Deploying the Website Preview (`site/`)
+## 7. Deploying the Static Documentation & Download Site (`site/`)
 
-The `site/` folder contains a standalone, zero-dependency static documentation and download site verified against all 20 web checklist standards.
+The `site/` directory contains the production-ready landing page, responsive download buttons, OS detection, interactive CLI demo, and complete documentation.
 
-### Option A: GitHub Pages (Recommended)
-1. In your GitHub repository, navigate to **Settings > Pages**.
-2. Under **Build and deployment > Source**, select **Deploy from a branch**.
-3. Create an orphan `gh-pages` branch containing the contents of `site/`:
-   ```bash
-   # Push the site directory to gh-pages branch
-   git subtree push --prefix site origin gh-pages
-   ```
-4. On GitHub, set branch to `gh-pages` and folder to `/ (root)`. Click **Save**.
-5. Your site is live at `https://tz-labs.github.io/tz-ai-debloater-tool/` (or your custom domain `https://tzlabs.in`).
+### Option A: GitHub Pages via Subtree (Zero Build Required)
+```bash
+# Push site directory to gh-pages branch
+git subtree push --prefix site origin gh-pages
+```
+In your GitHub repo:
+1. Navigate to **Settings > Pages**.
+2. Select Source: **Deploy from a branch**.
+3. Choose Branch: `gh-pages` / `/ (root)`.
+4. Click **Save**.
 
-### Option B: Cloudflare Pages / Vercel
-1. Connect the GitHub repository to Cloudflare Pages or Vercel.
-2. Set **Root directory** to `site`.
-3. Set **Build command** to none (pure static HTML).
-4. Set **Output directory** to `.` (current directory).
+### Option B: Cloudflare Pages
+1. Connect repo to Cloudflare Pages.
+2. Root directory: `site`.
+3. Build command: None (pure static).
+4. Output directory: `.`.
 5. Deploy.
-
----
-
-## 6. Post-Release Verification Checklist
-
-- [ ] Repository is set to Public on GitHub.
-- [ ] Release tag `v1.1.0` is visible on GitHub Releases with all 5 binary assets attached.
-- [ ] SHA-256 checksums match `SHA256SUMS.txt`.
-- [ ] GitHub Actions CI workflow runs cleanly on all platforms.
-- [ ] Documentation links in `README.md` navigate properly.
-- [ ] Website preview loads cleanly with 0 broken links and correct meta tags.
-

@@ -11,16 +11,20 @@ It features both a fluid desktop graphical application and a headless standalone
 
 ---
 
-## Operating System Support Matrix
+## Multi-Platform Verification Status Matrix
 
-| Platform | Architecture | Graphical Desktop App | Standalone CLI (`tz-debloater`) | Support Tier |
-| :--- | :--- | :--- | :--- | :--- |
-| **Windows 10 / 11** | `x86_64` (64-bit) | NSIS Setup, WiX MSI, Portable EXE | Standalone `.exe` (`.zip`) | **Tier 1: Verified on Hardware** |
-| **macOS 12+** | Apple Silicon (`aarch64`) | DMG Bundle | Standalone Mach-O binary | **Tier 2: Supported (CI Built)** |
-| **macOS 12+** | Intel (`x86_64`) | DMG Bundle | Standalone Mach-O binary | **Tier 2: Supported (CI Built)** |
-| **Linux (Ubuntu, Debian, Fedora, Arch)** | `x86_64` (64-bit) | AppImage, `.deb` package | Standalone ELF binary | **Tier 2: Supported (CI Built)** |
-| **Windows on ARM** | `aarch64` | Emulated x64 execution | Emulated x64 execution | Compatible (Unverified native) |
-| **Linux ARM64** | `aarch64` | Source build required | Source build required | Community Unverified |
+Every release package is evaluated across six rigorous operational dimensions. To maintain absolute transparency and integrity, packages verified on native hardware are clearly distinguished from pending remote CI builds:
+
+| Platform & Target | Architecture | Build Status | Install Status | Launch Status | ADB Status | Signing / Notarization |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Windows 10 / 11** | `x86_64` | **Verified Local** | **Verified Native** (Setup, MSI, Portable) | **Verified Fluid** (100%, 125%, 150% DPI) | **Verified Hardware** (Poco X3 Pro & Mock ADB) | Unsigned Community Binary (SmartScreen documented) |
+| **macOS Apple Silicon** | `aarch64` (M1–M4) | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **macOS Intel** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **Linux Ubuntu / Debian** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned `.deb` / AppImage (udev rules documented) |
+| **Linux Standalone CLI** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Static ELF binary (POSIX compliant) |
+
+> [!NOTE]
+> Because this local development workstation runs Windows 10/11 x64 without macOS or Linux cross-compilers, macOS and Linux packages are compiled through the dedicated GitHub Actions workflow [`.github/workflows/build-artifacts.yml`](./.github/workflows/build-artifacts.yml) on GitHub-hosted native runners. See [PUBLISHING.md](./PUBLISHING.md) for instructions to run the workflow and download artifacts.
 
 ---
 
@@ -28,12 +32,26 @@ It features both a fluid desktop graphical application and a headless standalone
 
 All official release artifacts are cryptographically signed with SHA-256 checksums available in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt):
 
-| File Name | Format | Target Platform | Description |
-| :--- | :--- | :--- | :--- |
-| **`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`** | NSIS Installer | Windows 10/11 x64 | **Recommended Desktop Setup**: Per-user installation, automatic shortcut creation, uninstaller. |
-| **`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`** | WiX MSI | Windows 10/11 x64 | **Enterprise Deployment**: Silent automated rollouts via Group Policy (GPO), Intune, or SCCM. |
-| **`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`** | Standalone EXE | Windows 10/11 x64 | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
-| **`tz-debloater-v1.1.0-windows-x64.zip`** | Zip Archive | Windows 10/11 x64 | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
+### Windows Packages (Verified Local Binaries)
+
+| File Name | Format | Target Platform | Status | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| [`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-Setup.exe) | NSIS Installer | Windows 10/11 x64 | **Verified** | **Recommended Setup**: Per-user installation, automatic desktop/Start shortcuts, uninstaller. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.msi) | WiX MSI | Windows 10/11 x64 | **Verified** | **Enterprise Deployment**: Silent automated rollouts via Group Policy (GPO), Intune, or SCCM. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-portable.exe) | Standalone EXE | Windows 10/11 x64 | **Verified** | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
+| [`tz-debloater-v1.1.0-windows-x64.zip`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) | Zip Archive | Windows 10/11 x64 | **Verified** | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
+
+### macOS & Linux Packages (Pending GitHub Actions CI Artifacts)
+
+| File Name | Format | Target Platform | Status | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) | Apple Disk Image | macOS Apple Silicon | *Pending CI* | Drag-and-drop installer for Apple Silicon M1/M2/M3/M4 Macs. |
+| [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) | Tar Gzip Archive | macOS Apple Silicon | *Pending CI* | Standalone Mach-O CLI binary for Apple Silicon terminals. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) | Apple Disk Image | macOS Intel x86_64 | *Pending CI* | Drag-and-drop installer for legacy Intel Macs. |
+| [`tz-debloater-v1.1.0-macos-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) | Tar Gzip Archive | macOS Intel x86_64 | *Pending CI* | Standalone Mach-O CLI binary for Intel Mac terminals. |
+| [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) | Linux AppImage | Linux x86_64 | *Pending CI* | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
+| [`tz-ai-debloater_1.1.0_amd64.deb`](./release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | *Pending CI* | Standard Debian package with system menu entry and desktop shortcuts. |
+| [`tz-debloater-v1.1.0-linux-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | *Pending CI* | Standalone ELF CLI binary for headless servers and automation. |
 
 ---
 

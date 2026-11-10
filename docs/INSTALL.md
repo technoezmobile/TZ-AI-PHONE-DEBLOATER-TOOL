@@ -4,16 +4,38 @@
 
 ---
 
-## Operating System Support Matrix
+## Operating System Support & Verification Matrix
 
-| Platform | Architecture | Graphical Desktop App | Standalone CLI (`tz-debloater`) | Verification Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Windows 10 / 11** | `x86_64` (64-bit) | NSIS Setup, WiX MSI, Portable EXE | Standalone `.exe` (`.zip`) | **Verified on Hardware** |
-| **macOS 12+** | Apple Silicon (`aarch64`) | DMG Bundle | Standalone Mach-O binary | Supported (CI Built) |
-| **macOS 12+** | Intel (`x86_64`) | DMG Bundle | Standalone Mach-O binary | Supported (CI Built) |
-| **Linux (Ubuntu, Debian, Fedora, Arch)** | `x86_64` (64-bit) | AppImage, `.deb` package | Standalone ELF binary | Supported (CI Built) |
-| **Windows on ARM** | `aarch64` | Emulated x64 execution | Emulated x64 execution | Compatible (Unverified native) |
-| **Linux ARM64** | `aarch64` | Source build required | Source build required | Unverified |
+Every release package is evaluated across six operational criteria. Windows packages are verified on native hardware; macOS and Linux packages are generated via GitHub Actions native runners:
+
+| Platform & Target | Architecture | Build Status | Install Status | Launch Status | ADB Status | Signing / Notarization |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Windows 10 / 11** | `x86_64` | **Verified Local** | **Verified Native** (Setup, MSI, Portable) | **Verified Fluid** (100%, 125%, 150% DPI) | **Verified Hardware** (Poco X3 Pro & Mock ADB) | Unsigned Community Binary (SmartScreen bypass documented) |
+| **macOS Apple Silicon** | `aarch64` (M1–M4) | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **macOS Intel** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **Linux Ubuntu / Debian** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned `.deb` / AppImage (udev rules documented) |
+| **Linux Standalone CLI** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Static ELF binary (POSIX compliant) |
+
+---
+
+## Release Artifacts Inventory (v1.1.0)
+
+Official release packages are cataloged in [`release_artifacts/github-release/v1.1.0/`](../release_artifacts/github-release/v1.1.0/):
+
+### Windows (Local Verified Binaries)
+- [`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-Setup.exe) (NSIS Desktop Setup)
+- [`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.msi) (Enterprise WiX MSI)
+- [`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-portable.exe) (Zero-Install Standalone Executable)
+- [`tz-debloater-v1.1.0-windows-x64.zip`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) (Standalone CLI Archive)
+
+### macOS & Linux (GitHub Actions CI Workflow Artifacts)
+- [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) (Apple Silicon DMG) — *Pending CI Runner*
+- [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) (Apple Silicon CLI) — *Pending CI Runner*
+- [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) (Intel Mac DMG) — *Pending CI Runner*
+- [`tz-debloater-v1.1.0-macos-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) (Intel Mac CLI) — *Pending CI Runner*
+- [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) (Linux x86_64 AppImage) — *Pending CI Runner*
+- [`tz-ai-debloater_1.1.0_amd64.deb`](../release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) (Debian / Ubuntu Package) — *Pending CI Runner*
+- [`tz-debloater-v1.1.0-linux-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) (Linux x86_64 CLI) — *Pending CI Runner*
 
 ---
 
@@ -57,8 +79,8 @@ For field technicians running from a USB flash drive without administrative righ
 
 ### 1. Desktop App (Apple Silicon & Intel)
 1. Download the corresponding DMG for your architecture:
-   - Apple Silicon (M1/M2/M3/M4): `TZ-AI-Debloater-v1.1.0-aarch64.dmg`
-   - Intel Macs: `TZ-AI-Debloater-v1.1.0-x64.dmg`
+   - Apple Silicon (M1/M2/M3/M4): [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg)
+   - Intel Macs: [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg)
 2. Open the DMG file and drag **TZ AI DEBLOATER TOOL** into your **Applications** folder.
 3. Because the release is open-source and unsigned with an Apple Developer certificate, macOS Gatekeeper may display a warning on first launch. To permit launch:
    - Right-click the app in `/Applications` and select **Open**, then click **Open** in the dialog.
@@ -68,12 +90,16 @@ For field technicians running from a USB flash drive without administrative righ
      ```
 
 ### 2. Standalone Terminal CLI
-```bash
-# Extract and copy to standard bin path
-sudo cp tz-debloater /usr/local/bin/tz-debloater
-sudo chmod +x /usr/local/bin/tz-debloater
-tz-debloater doctor
-```
+1. Download the CLI tarball:
+   - Apple Silicon: [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz)
+   - Intel Mac: [`tz-debloater-v1.1.0-macos-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz)
+2. Extract and copy to your system path:
+   ```bash
+   tar -xzvf tz-debloater-v1.1.0-macos-*.tar.gz
+   sudo cp tz-debloater /usr/local/bin/tz-debloater
+   sudo chmod +x /usr/local/bin/tz-debloater
+   tz-debloater doctor
+   ```
 
 ---
 
@@ -81,16 +107,30 @@ tz-debloater doctor
 
 ### 1. AppImage
 The AppImage runs on any modern Linux distribution without installation:
-```bash
-chmod +x TZ-AI-Debloater-v1.1.0.AppImage
-./TZ-AI-Debloater-v1.1.0.AppImage
-```
+1. Download [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage).
+2. Make it executable and run:
+   ```bash
+   chmod +x TZ-AI-Debloater-Tool-v1.1.0.AppImage
+   ./TZ-AI-Debloater-Tool-v1.1.0.AppImage
+   ```
 
 ### 2. Debian / Ubuntu Package (`.deb`)
-```bash
-sudo dpkg -i tz-ai-debloater_1.1.0_amd64.deb
-sudo apt-get install -f  # Resolves any missing webkit2gtk dependencies if required
-```
+1. Download [`tz-ai-debloater_1.1.0_amd64.deb`](../release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb).
+2. Install via dpkg:
+   ```bash
+   sudo dpkg -i tz-ai-debloater_1.1.0_amd64.deb
+   sudo apt-get install -f  # Resolves any missing webkit2gtk dependencies if required
+   ```
+
+### 3. Standalone Terminal CLI
+1. Download [`tz-debloater-v1.1.0-linux-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz).
+2. Extract and copy to `/usr/local/bin`:
+   ```bash
+   tar -xzvf tz-debloater-v1.1.0-linux-x64.tar.gz
+   sudo cp tz-debloater /usr/local/bin/tz-debloater
+   sudo chmod +x /usr/local/bin/tz-debloater
+   tz-debloater doctor
+   ```
 
 ### 3. Android Udev Rules (Non-Root ADB Access)
 On Linux systems, non-root users require udev permissions to communicate with USB Android devices:
