@@ -24,39 +24,39 @@ Every release package is evaluated across six rigorous operational dimensions. T
 | **Linux Standalone CLI** | `x86_64` | **Verified CI Runner** | **Verified Binary** (tar.gz archive) | **Verified Native** | **Supported** (POSIX compliant) | Static ELF binary (POSIX compliant) |
 
 > [!NOTE]
-> All release artifacts across Windows, macOS (Apple Silicon & Intel), and Linux were compiled from clean, audited release sources via GitHub Actions native runners and verified against authoritative SHA-256 checksums in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt).
+> All release artifacts across Windows, macOS (Apple Silicon & Intel), and Linux were compiled from clean, audited release sources via GitHub Actions native runners and verified against authoritative SHA-256 checksums in [`SHA256SUMS.txt`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/SHA256SUMS.txt).
 
 ---
 
 ## Official Downloads (Release v1.1.0)
 
-All 11 official release artifacts are cryptographically verified with SHA-256 checksums available in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt):
+All 11 official release artifacts are cryptographically verified with SHA-256 checksums available in [`SHA256SUMS.txt`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/SHA256SUMS.txt):
 
 ### Windows Packages (Verified Native Binaries)
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| [`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-Setup.exe) | NSIS Installer | Windows 10/11 x64 | **Verified** | **Recommended Setup**: Per-user installation, automatic desktop/Start shortcuts, uninstaller. |
-| [`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.msi) | WiX MSI | Windows 10/11 x64 | **Verified** | **Enterprise Deployment**: Silent automated rollouts via Group Policy (GPO), Intune, or SCCM. |
-| [`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-portable.exe) | Standalone EXE | Windows 10/11 x64 | **Verified** | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
-| [`tz-debloater-v1.1.0-windows-x64.zip`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) | Zip Archive | Windows 10/11 x64 | **Verified** | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-Setup.exe`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-Setup.exe) | NSIS Installer | Windows 10/11 x64 | **Verified** | **Recommended Setup**: Per-user installation, automatic desktop/Start shortcuts, uninstaller. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.msi`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.msi) | WiX MSI | Windows 10/11 x64 | **Verified** | **Enterprise Deployment**: Silent automated rollouts via Group Policy (GPO), Intune, or SCCM. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-portable.exe) | Standalone EXE | Windows 10/11 x64 | **Verified** | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
+| [`tz-debloater-v1.1.0-windows-x64.zip`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) | Zip Archive | Windows 10/11 x64 | **Verified** | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
 
 ### macOS Packages (Verified Apple Silicon & Intel)
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) | Apple Disk Image | macOS Apple Silicon (M1–M4) | **Verified** | Drag-and-drop installer for Apple Silicon M1/M2/M3/M4 Macs. |
-| [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) | Tar Gzip Archive | macOS Apple Silicon | **Verified** | Standalone Mach-O CLI binary for Apple Silicon terminals. |
-| [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) | Apple Disk Image | macOS Intel x86_64 | **Verified** | Drag-and-drop installer for legacy Intel Macs. |
-| [`tz-debloater-v1.1.0-macos-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) | Tar Gzip Archive | macOS Intel x86_64 | **Verified** | Standalone Mach-O CLI binary for Intel Mac terminals. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) | Apple Disk Image | macOS Apple Silicon (M1–M4) | **Verified** | Drag-and-drop installer for Apple Silicon M1/M2/M3/M4 Macs. |
+| [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) | Tar Gzip Archive | macOS Apple Silicon | **Verified** | Standalone Mach-O CLI binary for Apple Silicon terminals. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) | Apple Disk Image | macOS Intel x86_64 | **Verified** | Drag-and-drop installer for legacy Intel Macs. |
+| [`tz-debloater-v1.1.0-macos-x64.tar.gz`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) | Tar Gzip Archive | macOS Intel x86_64 | **Verified** | Standalone Mach-O CLI binary for Intel Mac terminals. |
 
 ### Linux Packages (Verified x86_64 Packages & CLI)
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| [`TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage) | Linux AppImage | Linux x86_64 | **Verified** | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
-| [`tz-ai-debloater_1.1.0_amd64.deb`](./release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | **Verified** | Standard Debian package with system menu entry and desktop shortcuts. |
-| [`tz-debloater-v1.1.0-linux-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | **Verified** | Standalone ELF CLI binary for headless servers and automation. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage) | Linux AppImage | Linux x86_64 | **Verified** | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
+| [`tz-ai-debloater_1.1.0_amd64.deb`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | **Verified** | Standard Debian package with system menu entry and desktop shortcuts. |
+| [`tz-debloater-v1.1.0-linux-x64.tar.gz`](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/download/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | **Verified** | Standalone ELF CLI binary for headless servers and automation. |
 
 ---
 
