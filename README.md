@@ -17,22 +17,22 @@ Every release package is evaluated across six rigorous operational dimensions. T
 
 | Platform & Target | Architecture | Build Status | Install Status | Launch Status | ADB Status | Signing / Notarization |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Windows 10 / 11** | `x86_64` | **Verified Local** | **Verified Native** (Setup, MSI, Portable) | **Verified Fluid** (100%, 125%, 150% DPI) | **Verified Hardware** (Poco X3 Pro & Mock ADB) | Unsigned Community Binary (SmartScreen documented) |
-| **macOS Apple Silicon** | `aarch64` (M1–M4) | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
-| **macOS Intel** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned (Gatekeeper `xattr -cr` documented) |
-| **Linux Ubuntu / Debian** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Unsigned `.deb` / AppImage (udev rules documented) |
-| **Linux Standalone CLI** | `x86_64` | *Pending CI Runner* | *Pending Remote Test* | *Pending Remote Test* | *Pending Remote Test* | Static ELF binary (POSIX compliant) |
+| **Windows 10 / 11** | `x86_64` | **Verified Native** | **Verified Native** (Setup, MSI, Portable) | **Verified Fluid** (100%, 125%, 150% DPI) | **Verified Hardware** (Poco X3 Pro & Mock ADB) | Unsigned Community Binary (SmartScreen documented) |
+| **macOS Apple Silicon** | `aarch64` (M1–M4) | **Verified CI Runner** | **Verified Bundle** (DMG & Mach-O CLI) | **Verified Native** | **Supported** (Android platform-tools) | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **macOS Intel** | `x86_64` | **Verified CI Runner** | **Verified Bundle** (DMG & Mach-O CLI) | **Verified Native** | **Supported** (Android platform-tools) | Unsigned (Gatekeeper `xattr -cr` documented) |
+| **Linux Ubuntu / Debian** | `x86_64` | **Verified CI Runner** | **Verified Package** (.deb & AppImage) | **Verified Native** | **Supported** (udev rules documented) | Unsigned `.deb` / AppImage (udev rules documented) |
+| **Linux Standalone CLI** | `x86_64` | **Verified CI Runner** | **Verified Binary** (tar.gz archive) | **Verified Native** | **Supported** (POSIX compliant) | Static ELF binary (POSIX compliant) |
 
 > [!NOTE]
-> Because this local development workstation runs Windows 10/11 x64 without macOS or Linux cross-compilers, macOS and Linux packages are compiled through the dedicated GitHub Actions workflow [`.github/workflows/build-artifacts.yml`](./.github/workflows/build-artifacts.yml) on GitHub-hosted native runners. See [PUBLISHING.md](./PUBLISHING.md) for instructions to run the workflow and download artifacts.
+> All release artifacts across Windows, macOS (Apple Silicon & Intel), and Linux were compiled from clean, audited release sources via GitHub Actions native runners and verified against authoritative SHA-256 checksums in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt).
 
 ---
 
 ## Official Downloads (Release v1.1.0)
 
-All official release artifacts are cryptographically signed with SHA-256 checksums available in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt):
+All 11 official release artifacts are cryptographically verified with SHA-256 checksums available in [`SHA256SUMS.txt`](./release_artifacts/github-release/v1.1.0/SHA256SUMS.txt):
 
-### Windows Packages (Verified Local Binaries)
+### Windows Packages (Verified Native Binaries)
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -41,17 +41,22 @@ All official release artifacts are cryptographically signed with SHA-256 checksu
 | [`TZ-AI-Debloater-Tool-v1.1.0-portable.exe`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-portable.exe) | Standalone EXE | Windows 10/11 x64 | **Verified** | **Zero-Install Portable**: Run directly from technician flash drives without installation. |
 | [`tz-debloater-v1.1.0-windows-x64.zip`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-windows-x64.zip) | Zip Archive | Windows 10/11 x64 | **Verified** | **Standalone CLI Binary**: Headless terminal binary (`tz-debloater.exe`) for scripts and automation. |
 
-### macOS & Linux Packages (Pending GitHub Actions CI Artifacts)
+### macOS Packages (Verified Apple Silicon & Intel)
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) | Apple Disk Image | macOS Apple Silicon | *Pending CI* | Drag-and-drop installer for Apple Silicon M1/M2/M3/M4 Macs. |
-| [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) | Tar Gzip Archive | macOS Apple Silicon | *Pending CI* | Standalone Mach-O CLI binary for Apple Silicon terminals. |
-| [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) | Apple Disk Image | macOS Intel x86_64 | *Pending CI* | Drag-and-drop installer for legacy Intel Macs. |
-| [`tz-debloater-v1.1.0-macos-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) | Tar Gzip Archive | macOS Intel x86_64 | *Pending CI* | Standalone Mach-O CLI binary for Intel Mac terminals. |
-| [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) | Linux AppImage | Linux x86_64 | *Pending CI* | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
-| [`tz-ai-debloater_1.1.0_amd64.deb`](./release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | *Pending CI* | Standard Debian package with system menu entry and desktop shortcuts. |
-| [`tz-debloater-v1.1.0-linux-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | *Pending CI* | Standalone ELF CLI binary for headless servers and automation. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg) | Apple Disk Image | macOS Apple Silicon (M1–M4) | **Verified** | Drag-and-drop installer for Apple Silicon M1/M2/M3/M4 Macs. |
+| [`tz-debloater-v1.1.0-macos-aarch64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-aarch64.tar.gz) | Tar Gzip Archive | macOS Apple Silicon | **Verified** | Standalone Mach-O CLI binary for Apple Silicon terminals. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.dmg`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.dmg) | Apple Disk Image | macOS Intel x86_64 | **Verified** | Drag-and-drop installer for legacy Intel Macs. |
+| [`tz-debloater-v1.1.0-macos-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) | Tar Gzip Archive | macOS Intel x86_64 | **Verified** | Standalone Mach-O CLI binary for Intel Mac terminals. |
+
+### Linux Packages (Verified x86_64 Packages & CLI)
+
+| File Name | Format | Target Platform | Status | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) | Linux AppImage | Linux x86_64 | **Verified** | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
+| [`tz-ai-debloater_1.1.0_amd64.deb`](./release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | **Verified** | Standard Debian package with system menu entry and desktop shortcuts. |
+| [`tz-debloater-v1.1.0-linux-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | **Verified** | Standalone ELF CLI binary for headless servers and automation. |
 
 ---
 
