@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog & Release Notes · TZ AI DEBLOATER TOOL v1.1.0</title>
+  <meta name="description" content="Release notes and changelog for TZ AI DEBLOATER TOOL v1.1.0. First public release featuring standalone tz-debloater CLI, cross-platform keyrings, cross-process advisory locks, and multi-platform CI/CD.">
+  <link rel="canonical" href="https://tzlabs.in/debloater/changelog/">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tzlabs.in/debloater/changelog/">
+  <meta property="og:title" content="TZ AI DEBLOATER TOOL Changelog (v1.1.0)">
+  <meta property="og:description" content="Release notes detailing standalone CLI, cross-platform OS vaults, advisory locks, package classification, and CI/CD pipelines.">
+  <meta property="og:image" content="https://tzlabs.in/debloater/assets/logo.png">
+
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="../" class="brand-group" aria-label="TZ AI Debloater Tool Home">
+        <span class="brand-badge">TZ</span>
+        <span class="brand-name">AI DEBLOATER TOOL</span>
+        <span class="brand-version">v1.1.0</span>
+      </a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../">Overview</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="../docs/">Documentation</a></li>
+          <li><a href="./" class="active">Changelog</a></li>
+          <li><a href="../privacy/">Privacy</a></li>
+          <li><a href="../refer/">Share</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <div style="margin-bottom: 24px;">
+      <span class="badge badge-teal">Release History</span>
+      <h1 style="margin-top: 8px;">Changelog & Release Notes</h1>
+      <p>Continuous refinement, verified hardware testing, and precision engineering updates.</p>
+    </div>
+
+    <!-- v1.1.0 -->
+    <article class="card" style="margin-bottom: 32px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <div>
+          <span style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Version 1.1.0</span>
+          <span class="badge badge-teal" style="margin-left: 8px;">Latest Stable</span>
+        </div>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">November 10, 2026</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <h3 style="margin-top: 0;">1. Standalone Terminal Application (`tz-debloater`)</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Headless Terminal Architecture:</strong> Complete terminal client running with 0 webview dependencies. Supports 11 subcommands: <code>doctor</code>, <code>devices</code>, <code>users</code>, <code>scan</code>, <code>candidates</code>, <code>plan</code>, <code>apply</code>, <code>history</code>, <code>restore</code>, <code>config</code>, and <code>models</code>.</li>
+            <li><strong>Documented POSIX Exit Codes:</strong> Strict exit code contracts for CI/CD scripting: 0 (Success), 1 (Runtime error), 2 (Usage error), 3 (Confirmation declined), 4 (Policy violation), 5 (Device offline).</li>
+            <li><strong>Machine-Readable JSON:</strong> Full <code>--json</code> support across all subcommands for headless pipelines and automation.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>2. Cross-Platform OS Vaults & Advisory Locks</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Cross-Platform Credential Vaults:</strong> Native credential encryption via Windows DPAPI, Apple Keychain Services, and FreeDesktop Secret Service with 0600 file fallback.</li>
+            <li><strong>Cross-Process Advisory Locking:</strong> Atomic <code>.lock</code> files coordinate concurrent access between GUI and CLI instances with automated stale lock detection.</li>
+            <li><strong>Universal ADB Locator:</strong> Automated discovery for macOS Homebrew/MacPorts and Linux system binaries.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>3. Multi-Platform CI/CD & Public Documentation</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Automated Workflows:</strong> Multi-platform matrix CI running on Windows, macOS, and Linux runners.</li>
+            <li><strong>Authoritative Documentation:</strong> Comprehensive technical guides covering User Guide, CLI Reference, Installation, Troubleshooting, and Maintainer workflows.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- v1.0.1 -->
+    <article class="card" style="margin-bottom: 32px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <div>
+          <span style="font-size: 18px; font-weight: 700; color: var(--text-primary);">Version 1.0.1</span>
+          <span class="badge badge-zinc" style="margin-left: 8px;">Initial Release Candidate</span>
+        </div>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">November 10, 2026</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <h3 style="margin-top: 0;">1. Package Classification & Selection Architecture</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Three Separated Dimensions:</strong> Android package type (<code>System</code>, <code>UpdatedSystem</code>, <code>User</code>), catalog recommendation, and removal eligibility are decoupled. A catalog "Recommended" rating never overrides hardware protection rules.</li>
+            <li><strong>Debloat Candidates as Default View:</strong> Package Explorer defaults to eligible debloat candidates, with dedicated views for <em>All packages</em>, <em>System & vendor</em>, and <em>Removed for this user</em>.</li>
+            <li><strong>MediaTek & Modem Safeguards:</strong> Essential MediaTek vendor packages (<code>com.mediatek.telephony</code>, <code>com.mediatek.ims</code>, <code>com.mediatek.wfo.impl</code>) are locked as Protected. Uncertain vendor packages are marked Review-Only.</li>
+            <li><strong>Built-in ROM Utilities Protection:</strong> MIUI Compass, Notes, Weather, Calculator, and Screen Recorder are kept out of automated debloating plans and marked Review-Only.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>2. UX & Interaction Patterns (All 20 Patterns Implemented)</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Command Palette (<code>Ctrl+K</code>):</strong> Instant keyboard navigation, package search, and system actions.</li>
+            <li><strong>Persistent Sidebar:</strong> Remembers compact rail or full navigation preference across app restarts in <code>localStorage</code>.</li>
+            <li><strong>Advanced Filtering:</strong> Active filter chips bar with individual removals and an instant "Reset all filters" button.</li>
+            <li><strong>Debounced Search:</strong> 150ms debounce on Package Explorer search input eliminates UI frame drops on large inventories.</li>
+            <li><strong>Animated Skeleton Loaders:</strong> Multi-row skeleton placeholders render while package inventories and device states refresh.</li>
+            <li><strong>Preflight Batch Revalidation:</strong> Batch actions run <code>validate_batch_selection</code>, displaying an exact summary of targets and excluded protected items before execution.</li>
+            <li><strong>Hidden Selections Counter:</strong> Displays explicit warnings when filtered views conceal selected packages.</li>
+            <li><strong>Keyboard Navigation:</strong> Added <code>Ctrl+1</code> through <code>Ctrl+7</code> hotkeys, <code>Ctrl+R</code> rescan, and <code>Ctrl+/</code> shortcuts reference modal.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>3. Display Scaling & Layout Fluidity</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Windows High-DPI Scaling:</strong> Eliminated the half-screen bug on 125% and 150% Windows display scaling by enforcing responsive flex containers in logical CSS pixels.</li>
+            <li><strong>Narrow Window Grace:</strong> Two-column layouts in Settings and AI Assistant stack gracefully when the window width is reduced.</li>
+            <li><strong>Chat Table Rendering:</strong> Render Markdown execution tables and logs as responsive structured tables rather than raw pipe delimiters.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>4. AI Assistant & Model Protocols</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Gemini Direct:</strong> Added direct Google Gemini API integration with support for <code>gemini-2.5-flash</code>.</li>
+            <li><strong>Protocol Response Verification:</strong> Added strict response shape and generation validation across Chat Completions, Responses, and Anthropic APIs.</li>
+            <li><strong>FreeLLMAPI Branding Removal:</strong> Neutralized third-party provider branding in favor of clean TZ AI Gateway configuration.</li>
+            <li><strong>Explicit Shortcut Scopes:</strong> Distinct backend scopes for <code>ReviewBloatware</code>, <code>ReviewTrackers</code>, <code>UninstallPromos</code>, and <code>ListCandidates</code>.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>5. Security & Vault Isolation</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); line-height: 1.7; font-size: 13.5px;">
+            <li><strong>Production Vault Isolation:</strong> Credential unit tests run in an isolated in-memory test store and cannot overwrite user credentials in the Windows DPAPI vault.</li>
+            <li><strong>Eliminated Runtime Fallback Override:</strong> Removed <code>TZ_DEBLOATER_USE_FALLBACK_STORE</code> from production release builds. Failed credential saves report honest errors rather than claiming persistence.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- v1.0.0 -->
+    <article class="card">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <div>
+          <span style="font-size: 16px; font-weight: 600; color: var(--text-primary);">Version 1.0.0</span>
+          <span class="badge badge-zinc" style="margin-left: 8px;">Initial Release</span>
+        </div>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">November 8, 2026</span>
+      </div>
+      <p class="card-text">
+        Initial public release featuring core ADB integration, multi-user package management, local SQLite rollback journal, community debloat database, and basic action plan review.
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        © 2026 <a href="https://tzlabs.in" target="_blank" rel="noopener">TZ Labs</a>. Free and Open Source under GPL-3.0.
+      </div>
+      <ul class="footer-links">
+        <li><a href="../">Overview</a></li>
+        <li><a href="../download/">Download</a></li>
+        <li><a href="../docs/">Docs</a></li>
+        <li><a href="./">Changelog</a></li>
+        <li><a href="../privacy/">Privacy</a></li>
+        <li><a href="../refer/">Share</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
+

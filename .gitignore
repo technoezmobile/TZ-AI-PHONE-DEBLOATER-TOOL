@@ -1,0 +1,37 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+src-tauri/target
+target/
+
+# Local Test Data & Temporary Fixtures
+.test-data/
+*.tmp
+
+# Upstream Reference Repositories & Local Artifacts
+_upstream/
+*.apk
+*.dex
+classes.dex
+release_artifacts/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

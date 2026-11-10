@@ -1,0 +1,179 @@
+name: Build CI Artifacts (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build profile (release or debug)'
+        required: false
+        default: 'release'
+        type: choice
+        options:
+          - release
+          - debug
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-x64
+            os: windows-latest
+            artifact_name: tz-debloater-windows-x64
+          - platform: macos-aarch64
+            os: macos-15
+            target: aarch64-apple-darwin
+            artifact_name: tz-debloater-macos-aarch64
+          - platform: macos-x64
+            os: macos-15-intel
+            target: x86_64-apple-darwin
+            artifact_name: tz-debloater-macos-x64
+          - platform: linux-x64
+            os: ubuntu-22.04
+            artifact_name: tz-debloater-linux-x64
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target || '' }}
+
+      - name: Cache Cargo Dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install Linux Build Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libssl-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libfuse2 \
+            squashfs-tools
+
+      - name: Install Locked Frontend Dependencies
+        run: npm ci
+
+      - name: Build Standalone CLI (`tz-debloater`)
+        shell: bash
+        run: |
+          if [ "${{ github.event.inputs.build_type }}" = "debug" ]; then
+            BUILD_FLAG=""
+          else
+            BUILD_FLAG="--release"
+          fi
+          if [ -n "${{ matrix.target }}" ]; then
+            TARGET_FLAG="--target ${{ matrix.target }}"
+          else
+            TARGET_FLAG=""
+          fi
+          echo "Building CLI with: cargo build --manifest-path src-tauri/Cargo.toml $BUILD_FLAG --bin tz-debloater $TARGET_FLAG"
+          cargo build --manifest-path src-tauri/Cargo.toml $BUILD_FLAG --bin tz-debloater $TARGET_FLAG
+
+      - name: Collect Windows CLI Artifact
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $PROFILE_DIR = "${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          New-Item -ItemType Directory -Force -Path ci_artifacts
+          Copy-Item "src-tauri/target/$PROFILE_DIR/tz-debloater.exe" -Destination "ci_artifacts/"
+          Compress-Archive -Force -Path "ci_artifacts/tz-debloater.exe" -DestinationPath "ci_artifacts/tz-debloater-v1.1.0-windows-x64.zip"
+
+      - name: Collect Unix CLI Artifact
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          PROFILE_DIR="${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          if [ -n "${{ matrix.target }}" ]; then
+            CLI_DIR="src-tauri/target/${{ matrix.target }}/$PROFILE_DIR"
+          else
+            CLI_DIR="src-tauri/target/$PROFILE_DIR"
+          fi
+          mkdir -p ci_artifacts
+          cp "$CLI_DIR/tz-debloater" ci_artifacts/tz-debloater
+          chmod +x ci_artifacts/tz-debloater
+          tar -czvf "ci_artifacts/tz-debloater-v1.1.0-${{ matrix.platform }}.tar.gz" -C ci_artifacts tz-debloater
+
+      - name: Build Desktop Application (Tauri v2)
+        shell: bash
+        run: |
+          if [ "${{ github.event.inputs.build_type }}" = "debug" ]; then
+            BUILD_FLAG="--debug"
+          else
+            BUILD_FLAG=""
+          fi
+          if [ -n "${{ matrix.target }}" ]; then
+            TARGET_FLAG="--target ${{ matrix.target }}"
+          else
+            TARGET_FLAG=""
+          fi
+          echo "Building Tauri desktop app with: npx tauri build $BUILD_FLAG $TARGET_FLAG"
+          npx tauri build $BUILD_FLAG $TARGET_FLAG
+
+      - name: Gather Generated Desktop Bundles
+        shell: bash
+        run: |
+          mkdir -p ci_artifacts
+          PROFILE_DIR="${{ github.event.inputs.build_type == 'debug' && 'debug' || 'release' }}"
+          if [ -n "${{ matrix.target }}" ]; then
+            BUNDLE_BASE="src-tauri/target/${{ matrix.target }}/$PROFILE_DIR/bundle"
+            STANDALONE_DIR="src-tauri/target/${{ matrix.target }}/$PROFILE_DIR"
+          else
+            BUNDLE_BASE="src-tauri/target/$PROFILE_DIR/bundle"
+            STANDALONE_DIR="src-tauri/target/$PROFILE_DIR"
+          fi
+          
+          echo "Scanning for bundles in $BUNDLE_BASE..."
+          if [ -d "$BUNDLE_BASE" ]; then
+            find "$BUNDLE_BASE" -type f \( -name "*.exe" -o -name "*.msi" -o -name "*.dmg" -o -name "*.deb" -o -name "*.AppImage" \) -exec cp {} ci_artifacts/ \;
+          fi
+
+          # On Windows, copy standalone unbundled executable as portable
+          if [ -f "$STANDALONE_DIR/tz-ai-debloater-tool.exe" ]; then
+            cp "$STANDALONE_DIR/tz-ai-debloater-tool.exe" ci_artifacts/TZ-AI-Debloater-Tool-v1.1.0-portable.exe
+          fi
+
+          # Standardize filenames
+          cd ci_artifacts
+          for f in *x64-setup.exe; do [ -f "$f" ] && mv -f "$f" TZ-AI-Debloater-Tool-v1.1.0-Setup.exe || true; done
+          for f in *en-US.msi; do [ -f "$f" ] && mv -f "$f" TZ-AI-Debloater-Tool-v1.1.0-x64.msi || true; done
+          for f in *aarch64.dmg; do [ -f "$f" ] && mv -f "$f" TZ-AI-Debloater-Tool-v1.1.0-aarch64.dmg || true; done
+          for f in *x64.dmg; do [ -f "$f" ] && mv -f "$f" TZ-AI-Debloater-Tool-v1.1.0-x64.dmg || true; done
+          for f in *amd64.deb; do [ -f "$f" ] && mv -f "$f" tz-ai-debloater_1.1.0_amd64.deb || true; done
+          for f in *.AppImage; do [ -f "$f" ] && mv -f "$f" TZ-AI-Debloater-Tool-v1.1.0.AppImage || true; done
+          cd ..
+
+          echo "Final collected artifacts in ci_artifacts/:"
+          ls -la ci_artifacts/
+
+      - name: Upload Platform Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ci_artifacts/*
+          if-no-files-found: error
+          retention-days: 14
