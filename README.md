@@ -1,7 +1,7 @@
 # TZ AI DEBLOATER TOOL
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-teal.svg)](./LICENSE)
-[![Release: v1.1.0](https://img.shields.io/badge/Release-v1.1.0-emerald.svg)](https://github.com/tz-labs/tz-ai-debloater-tool/releases/tag/v1.1.0)
+[![Release: v1.1.0](https://img.shields.io/badge/Release-v1.1.0-emerald.svg)](https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases/tag/v1.1.0)
 [![CI: Multi-Platform](https://img.shields.io/badge/CI-Multi--Platform-blue.svg)](./.github/workflows/ci.yml)
 [![Design: Unslop](https://img.shields.io/badge/Design-Unslop-zinc.svg)](https://github.com/heydamir)
 

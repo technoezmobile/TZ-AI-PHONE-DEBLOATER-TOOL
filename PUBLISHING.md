@@ -29,7 +29,7 @@ Because macOS and Linux compilation require native toolchains (`hdiutil` for mac
 3. Set visibility to **Private** (if staging before release) or **Public**. Do **not** initialize with a README, .gitignore, or license (these already exist locally).
 4. Run in `E:\AI DEBLOATER`:
    ```bash
-   git remote add origin https://github.com/tz-labs/tz-ai-debloater-tool.git
+   git remote add origin https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL.git
    git branch -M main
    git push -u origin main
    ```
@@ -37,7 +37,7 @@ Because macOS and Linux compilation require native toolchains (`hdiutil` for mac
 ### Option B: Create Repository via GitHub CLI (`gh`)
 ```bash
 gh auth login
-gh repo create tz-labs/tz-ai-debloater-tool --public --source=. --remote=origin --push
+gh repo create technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL --public --source=. --remote=origin --push
 ```
 
 ---
@@ -146,7 +146,7 @@ git push origin v1.1.0
 ## 6. Uploading Assets to GitHub Releases
 
 ### Option A: Using GitHub Web Interface
-1. Go to `https://github.com/tz-labs/tz-ai-debloater-tool/releases`.
+1. Go to `https://github.com/technoezmobile/TZ-AI-PHONE-DEBLOATER-TOOL/releases`.
 2. Click **Draft a new release**.
 3. Choose existing tag **`v1.1.0`**.
 4. Set Title: **`TZ AI DEBLOATER TOOL v1.1.0`**.

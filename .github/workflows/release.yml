@@ -1,9 +1,15 @@
 name: Release Multi-Platform Bundles
 
+# Automated tag triggers are intentionally disabled so tag creation does not
+# overwrite the verified multi-platform release assets and authoritative checksums.
+# Run this workflow manually via workflow_dispatch if a rebuild is explicitly required.
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: 'Build profile (release or dev)'
+        required: true
+        default: 'release'
 
 permissions:
   contents: write
