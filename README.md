@@ -54,7 +54,7 @@ All 11 official release artifacts are cryptographically verified with SHA-256 ch
 
 | File Name | Format | Target Platform | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) | Linux AppImage | Linux x86_64 | **Verified** | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
+| [`TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage`](./release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage) | Linux AppImage | Linux x86_64 | **Verified** | Universal single-file executable for Ubuntu, Fedora, Arch, and Debian. |
 | [`tz-ai-debloater_1.1.0_amd64.deb`](./release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) | Debian Package | Debian / Ubuntu x64 | **Verified** | Standard Debian package with system menu entry and desktop shortcuts. |
 | [`tz-debloater-v1.1.0-linux-x64.tar.gz`](./release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) | Tar Gzip Archive | Linux x86_64 | **Verified** | Standalone ELF CLI binary for headless servers and automation. |
 

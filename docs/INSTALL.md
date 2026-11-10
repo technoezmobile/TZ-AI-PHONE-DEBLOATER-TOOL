@@ -35,7 +35,7 @@ All 11 official release packages are compiled, verified, and cataloged in [`rele
 - [`tz-debloater-v1.1.0-macos-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-macos-x64.tar.gz) (Intel Mac CLI)
 
 ### Linux Packages (Verified x86_64 Packages & CLI)
-- [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage) (Linux x86_64 AppImage)
+- [`TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage) (Linux x86_64 AppImage)
 - [`tz-ai-debloater_1.1.0_amd64.deb`](../release_artifacts/github-release/v1.1.0/tz-ai-debloater_1.1.0_amd64.deb) (Debian / Ubuntu Package)
 - [`tz-debloater-v1.1.0-linux-x64.tar.gz`](../release_artifacts/github-release/v1.1.0/tz-debloater-v1.1.0-linux-x64.tar.gz) (Linux x86_64 CLI)
 
@@ -109,11 +109,11 @@ For field technicians running from a USB flash drive without administrative righ
 
 ### 1. AppImage
 The AppImage runs on any modern Linux distribution without installation:
-1. Download [`TZ-AI-Debloater-Tool-v1.1.0.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0.AppImage).
+1. Download [`TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage`](../release_artifacts/github-release/v1.1.0/TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage).
 2. Make it executable and run:
    ```bash
-   chmod +x TZ-AI-Debloater-Tool-v1.1.0.AppImage
-   ./TZ-AI-Debloater-Tool-v1.1.0.AppImage
+   chmod +x TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage
+   ./TZ-AI-Debloater-Tool-v1.1.0-x64.AppImage
    ```
 
 ### 2. Debian / Ubuntu Package (`.deb`)
